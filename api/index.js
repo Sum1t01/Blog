@@ -1,10 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import userRoutes from './routes/user.route.js';
+import authRoutes from './routes/auth.route.js';
 
 dotenv.config();
 
 const app = express();
+
+app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
@@ -19,7 +23,6 @@ catch (error) {
     console.log(error.message);
 }
 
-app.get('/', (req, res) => {
-    console.log("Ding!");
-})
+app.use('/api/user', userRoutes);
+app.use('/api/auth', authRoutes);
 
