@@ -61,7 +61,7 @@ function SignUp() {
             Blogger
           </Link>
           <p className='text-sm mt-6'>
-            A platform to express <span className='text-blue-700'> Yourself</span>. Sign up with email or continue with google instead.
+            A platform to express <span className='text-pink-700'> Yourself</span>. Sign up with email or continue with google instead.
           </p>
         </div>
 
