@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    profilePicture:{
+        type:String,
+        default:'https://i.pngimg.me/thumb/f/720/c3f2c592f9.jpg'
+    }
 },
     { timestamps: true }
 );
