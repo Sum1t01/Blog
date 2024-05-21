@@ -11,7 +11,7 @@ function SignIn() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { error: errorMessage, loading } = useSelector(state => state.user);
+  const { error: errorMessage, loading } = useSelector((state) => state.user);
 
   const handleChange = (event) => {
 
@@ -41,8 +41,10 @@ function SignIn() {
         return dispatch(signInFailure(data.message));
       }
 
-      dispatch(signInSuccess(data));
-      navigate('/');
+      if (res.ok) {
+        dispatch(signInSuccess(data));
+        navigate('/');
+      }
 
     }
     catch (error) {
@@ -100,7 +102,7 @@ function SignIn() {
               }
             </Button>
 
-            
+
             <OAuth />
           </form>
 

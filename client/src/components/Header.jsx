@@ -1,12 +1,23 @@
 import React from 'react'
-import { Button, Navbar, TextInput } from 'flowbite-react';
+import { Avatar, Button, Dropdown, Navbar, TextInput } from 'flowbite-react';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleTheme } from '../redux/theme/themeSlice';
 import SearchIcon from '@mui/icons-material/Search';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 function Header() {
 
     const path = useLocation().pathname;
+    const { currentUser } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    const { theme } = useSelector((state) => state.theme);
+
+
+    const handleThemeChange = (event)=>{
+        dispatch(toggleTheme());
+    }
 
     return (
         <Navbar className='border-b-2'>
@@ -38,33 +49,69 @@ function Header() {
                     className='h-10 w-12 hidden sm:inline'
                     color='gray'
                     pill
+                    onClick={handleThemeChange}
                 >
-                    <DarkModeOutlinedIcon />
+                    {theme==='light'?(<DarkModeOutlinedIcon />):(<LightModeIcon/>)}
                 </Button>
 
-                <Link to={'/sign-in'}>
-                    <Button className='bg-gradient-to-r from-blue-700 to-purple-700'>
-                        Sign In
-                    </Button>
-                </Link>
+
+                {currentUser ? (
+                    <Dropdown
+                        arrowIcon={false}
+                        inline
+                        label={
+                            <Avatar
+                                alt='user'
+                                img={currentUser.profilePicture}
+                                rounded
+                            />
+                        }
+                    >
+                        <Dropdown.Header>
+                            <span className='block text-sm'>
+                                @{currentUser.username}
+                            </span>
+                            <span className='block text-sm truncate font-medium'>
+                                {currentUser.email}
+                            </span>
+                        </Dropdown.Header>
+                        <Link to={'/dashboard?tab=profile'}>
+                            <Dropdown.Item>
+                                Profile
+                            </Dropdown.Item>
+                        </Link>
+                        <Dropdown.Divider />
+                        <Dropdown.Item>
+                            Sign out
+                        </Dropdown.Item>
+                    </Dropdown>
+                ) : (
+
+                    <Link to={'/sign-in'}>
+                        <Button className='bg-gradient-to-r from-blue-700 to-purple-700' outline>
+                            Sign In
+                        </Button>
+                    </Link>
+                )
+                }
                 <Navbar.Toggle />
-            </div>
+            </div >
 
 
             <Navbar.Collapse>
-                <Navbar.Link active={path==='/'} as={'div'}>
+                <Navbar.Link active={path === '/'} as={'div'}>
                     <Link to='/'>
                         Home
                     </Link>
                 </Navbar.Link>
 
-                <Navbar.Link active={path==='/about'} as={'div'}>
+                <Navbar.Link active={path === '/about'} as={'div'}>
                     <Link to='/about'>
                         About
                     </Link>
                 </Navbar.Link>
 
-                <Navbar.Link active={path==='/projects'} as={'div'}>
+                <Navbar.Link active={path === '/projects'} as={'div'}>
                     <Link to='/projects'>
                         Projects
                     </Link>
@@ -72,7 +119,7 @@ function Header() {
             </Navbar.Collapse>
 
 
-        </Navbar>
+        </Navbar >
 
     )
 }

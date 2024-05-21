@@ -30,9 +30,10 @@ function OAuth() {
             });
 
             const data = await res.json();
-console.log(data);
-            if (data.success === true) {
+
+            if (res.ok) {
                 dispatch(signInSuccess(data));
+                console.log(data);
                 navigate('/');
             }
         }
